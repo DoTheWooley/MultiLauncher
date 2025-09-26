@@ -129,14 +129,6 @@
         alert('Failed to load the HTML content.');
       }
     }
-    async function update() {
-      const baseURL = 'https://raw.githubusercontent.com/DoTheWooley/MultiLauncher/Multilauncher.html'
-      const url = `${baseURL}?nocache=${Date.now()}`; // Force fresh fetch
-      const response = await fetch(url, { cache: 'no-store' }); // Prevent any browser-level caching
-      const htmlText = await response.text();
-     document.documentElement.innerHTML = htmlText;
-    }
-    update();
   </script>
 </body>
 </html>
