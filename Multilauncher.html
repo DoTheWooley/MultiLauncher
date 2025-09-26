@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MultiLauncher</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .center {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      height: 200px;
+      border: 3px solid white;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 500;
+    }
+    p {
+      margin-top: 0px;
+      margin-bottom: 0px;
+      font-size: 20px;
+      font-weight: 500;
+    }
+    button {
+      margin-top: 0px;
+      padding: 12px 24px;  
+      height: 50px;
+      width: 200px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #1f1f1f;
+      color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #333;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>MultiLauncher</h1>
+  <div class="center">
+    <p>Minecraft</p>
+    <br>
+    <button id="B1" onclick="loadAndOpenHTML('MultiLauncher/main/EaglercraftX_1.8_u50_Offline_Signed.html','B1')">Launch</button>
+  </div>
+  <br>
+  <div class="center">
+    <p>Rhythmus</p>
+    <br>
+    <button id="B2" onclick="loadAndOpenHTML('Rhythmus/main/Rhythmus.html','B2')">Launch</button>
+  </div>
+  <br>
+  <div class="center">
+    <p>Block Blast</p>
+    <br>
+    <button id="B3" onclick="loadAndOpenHTML('MultiLauncher/main/BlockBlast.html','B3')">Launch</button>
+  </div>
+  <br>
+  <div class="center">
+    <p>Cookie Clicker [DOWNLOAD]</p>
+    <br>
+    <button id="B4" onclick="loadAndOpenHTML('MultiLauncher/main/Cookie-Clicker-Source-Code-main.zip','B4')">Download</button>
+    <button id="B5" onclick="loadAndOpenHTML('MultiLauncher/main/CClaunch.html','B5')">How to Launch?</button>
+  </div>
+  <script>
+    if (localStorage.getItem('access') == 'false') {
+      document.documentElement.innerHTML = 'ACCESS DENIED';
+    } else {
+      if (localStorage.getItem('access') == 'retry') {
+        let access = prompt('Enter admin password')
+        if (access == 'Blasterfox1234') {
+          localStorage.setItem('access','true');
+        } else {
+          localStorage.setItem('access','false');
+          document.documentElement.innerHTML = 'ACCESS DENIED';
+        }
+      } else {
+        if (localStorage.getItem('access') != 'true') {
+          let access = prompt('Enter admin password')
+          if (access == 'Blasterfox1234') {
+            localStorage.setItem('access','true');
+          } else {
+            localStorage.setItem('access','retry');
+            document.documentElement.innerHTML = 'ACCESS DENIED';
+          }
+        }
+      }
+    }
+
+    async function loadAndOpenHTML(URL,Button) {
+      document.getElementById(Button).innerHTML = "LOADING...";
+      const baseURL = 'https://raw.githubusercontent.com/DoTheWooley/' + URL;
+      const url = `${baseURL}?nocache=${Date.now()}`; // Force fresh fetch
+
+      try {
+        const response = await fetch(url, { cache: 'no-store' }); // Prevent any browser-level caching
+        const htmlText = await response.text();
+        document.getElementById(Button).innerHTML = "Launch";
+        if (Button == "B4") {
+          document.getElementById(Button).innerHTML = "Download";
+        }
+        if (Button == "B5") {
+          document.getElementById(Button).innerHTML = "How to Launch?";
+        }
+
+        const newWindow = window.open();
+        if (newWindow) {
+          newWindow.document.open();
+          newWindow.document.write(htmlText);
+          newWindow.document.close();
+        } else {
+          alert('Pop-up blocked. Please allow pop-ups for this site.');
+        }
+      } catch (error) {
+        console.error('Error loading HTML:', error);
+        alert('Failed to load the HTML content.');
+      }
+    }
+    async function update() {
+      const baseURL = 'https://raw.githubusercontent.com/DoTheWooley/MultiLauncher/Multilauncher.html'
+      const url = `${baseURL}?nocache=${Date.now()}`; // Force fresh fetch
+      const response = await fetch(url, { cache: 'no-store' }); // Prevent any browser-level caching
+      const htmlText = await response.text();
+     document.documentElement.innerHTML = htmlText;
+    }
+    update();
+  </script>
+</body>
+</html>
