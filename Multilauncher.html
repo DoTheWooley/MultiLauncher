@@ -72,7 +72,7 @@
   <div class="center">
     <p>Cookie Clicker [DOWNLOAD]</p>
     <br>
-    <button id="B4" onclick="loadAndOpenHTML('MultiLauncher/main/Cookie-Clicker-Source-Code-main.zip','B4')">Download</button>
+    <button id="B4" onclick="openLink('https://raw.githubusercontent.com/DoTheWooley/MultiLauncher/main/Cookie-Clicker-Source-Code-main.zip')">Download</button>
     <button id="B5" onclick="loadAndOpenHTML('MultiLauncher/main/CClaunch.html','B5')">How to Launch?</button>
   </div>
   <script>
@@ -100,13 +100,15 @@
       }
     }
 
+    function openLink(Link) {
+      window.open(Link);
+    }
     async function loadAndOpenHTML(URL,Button) {
       document.getElementById(Button).innerHTML = "LOADING...";
       const baseURL = 'https://raw.githubusercontent.com/DoTheWooley/' + URL;
-      const url = `${baseURL}?nocache=${Date.now()}`; // Force fresh fetch
-
+      const url = `${baseURL}?nocache=${Date.now()}`;
       try {
-        const response = await fetch(url, { cache: 'no-store' }); // Prevent any browser-level caching
+        const response = await fetch(url, { cache: 'no-store' });
         const htmlText = await response.text();
         document.getElementById(Button).innerHTML = "Launch";
         if (Button == "B4") {
@@ -115,7 +117,6 @@
         if (Button == "B5") {
           document.getElementById(Button).innerHTML = "How to Launch?";
         }
-
         const newWindow = window.open();
         if (newWindow) {
           newWindow.document.open();
